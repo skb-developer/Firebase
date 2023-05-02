@@ -79,7 +79,7 @@ const uploadMultipleImages = multer({
     }*/
 }).any('file');
 
-app.get('/', async (req, res) => {
+/*app.get('/', async (req, res) => {
     if (access_token == 'not generated') {
         request({
             uri: 'https://oauth2.googleapis.com/token',
@@ -140,6 +140,11 @@ app.get('/', async (req, res) => {
         })
     }
     console.log(access_token)
+})
+*/
+
+app.get('/',(req,res)=>{
+    res.send({message:"Server Deployed"});
 })
 
 app.post('/create', async (req, res) => {
