@@ -71,12 +71,12 @@ const uploadSingleImage = multer({
 
 const uploadMultipleImages = multer({
     storage: storage,
-    fileFilter: (req, file, cb) => {
+    /*fileFilter: (req, file, cb) => {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
             return cb(new Error('Please upload an excel file'));
         }
         cb(undefined, true)
-    }
+    }*/
 }).any('file');
 
 app.get('/', async (req, res) => {
@@ -285,3 +285,5 @@ app.post('/getImage', async (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log("Server Running")
 })
+
+module.exports = app;
