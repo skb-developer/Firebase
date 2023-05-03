@@ -143,8 +143,8 @@ const uploadMultipleImages = multer({
 })
 */
 
-app.get('/',(req,res)=>{
-    res.send({message:"Server Deployed"});
+app.get('/', (req, res) => {
+    res.send({ message: "Server Deployed" });
 })
 
 app.post('/create', async (req, res) => {
