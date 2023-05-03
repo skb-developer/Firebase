@@ -290,5 +290,3 @@ app.post('/getImage', async (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log("Server Running")
 })
-
-module.exports = app;
