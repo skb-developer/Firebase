@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<head>
+    <title>HTML File</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <div class="container">
+        <h2 class="text-center">With <code>"express"</code> npm package</h2>
+        <form class="row g-3" action="/api/upload" enctype="multipart/form-data" method="post">
+            <div class="col-12">
+                <label class="form-label">Text field title: </label>
+                <input class="form-control" type="text" name="title" />
+            </div>
+            <div class="col-12">
+                <label class="form-label">File:</label>
+                <input class="form-control" type="file" name="someExpressFiles" multiple="multiple" />
+            </div>
+            <div>
+                <button class="btn btn-dark col-6" type="submit">Upload</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -10,6 +10,7 @@ const xlsx = require('node-xlsx');
 require('dotenv').config();
 const request = require('request');
 const { setDefaultResultOrder } = require('dns');
+const formidable = require('formidable');
 
 const credentials = {
     type: process.env.type,
@@ -26,6 +27,7 @@ const credentials = {
 
 app.use(express.json());
 app.use(express.static('uploads'));
+app.set('view engine', 'ejs');
 
 const uploadpath = path.join(__dirname, 'uploads', '/');
 
@@ -284,6 +286,62 @@ app.post('/getImage', async (req, res) => {
             res.send(err)
         else
             res.send({ imageUrl: url })
+    })
+})
+
+// formidable
+
+app.get('/form', (req, res) => {
+    res.render('index');
+})
+
+// Upload any type of files using formidable
+app.post('/api/upload', (req, res, next) => {
+    const form = formidable({ multiples: true });
+    let flag = 0;
+    var imageUrlArray = [];
+
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        //res.send({ fields, files })
+
+        files.someExpressFiles.forEach((item) => {
+            bucket.upload(item.filepath, {
+                destination: `images/${item.originalFilename}`,
+                gzip: true,
+                metadata: {
+                    cacheControl: 'public, max-age=31536000'
+                }
+            }).then(() => {
+                flag = 0
+            }).catch((err) => {
+                flag = 1
+                res.send(err)
+                return false;
+            })
+        })
+        if (flag == 0) {
+            files.someExpressFiles.forEach((item) => {
+                const file = bucket.file(`images/${item.originalFilename}`)
+                const config = {
+                    action: 'read',
+                    expires: '03-17-2025',
+                };
+                file.getSignedUrl(config, (err, url) => {
+                    if (err)
+                        res.send(err)
+                    else {
+                        imageUrlArray.push(url)
+                        if (imageUrlArray.length == files.someExpressFiles.length) {
+                            res.send({ status: 200, message: "Images Successfully Uploaded", imageURLs: imageUrlArray })
+                        }
+                    }
+                })
+            })
+        }
     })
 })
 
