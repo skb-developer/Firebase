@@ -299,7 +299,7 @@ app.get('/form', (req, res) => {
 app.post('/api/upload', (req, res, next) => {
     const form = formidable({ multiples: true });
     let flag = 0;
-    var imageUrlArray = [];
+    var urlArray = [];
 
     form.parse(req, (err, fields, files) => {
         if (err) {
@@ -307,6 +307,7 @@ app.post('/api/upload', (req, res, next) => {
             return;
         }
         //res.send({ fields, files })
+        //console.log(files.someExpressFiles);
 
         files.someExpressFiles.forEach((item) => {
             bucket.upload(item.filepath, {
@@ -334,9 +335,9 @@ app.post('/api/upload', (req, res, next) => {
                     if (err)
                         res.send(err)
                     else {
-                        imageUrlArray.push(url)
-                        if (imageUrlArray.length == files.someExpressFiles.length) {
-                            res.send({ status: 200, message: "Images Successfully Uploaded", imageURLs: imageUrlArray })
+                        urlArray.push({ fileName: item.originalFilename, url: url });
+                        if (urlArray.length == files.someExpressFiles.length) {
+                            res.send({ status: 200, message: "Images Successfully Uploaded", URLs: urlArray })
                         }
                     }
                 })
@@ -347,4 +348,6 @@ app.post('/api/upload', (req, res, next) => {
 
 app.listen(process.env.PORT, () => {
     console.log("Server Running")
-})
+});
+
+module.exports = app;
